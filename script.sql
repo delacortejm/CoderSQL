@@ -58,25 +58,7 @@ CREATE TABLE Sale (
     INDEX idx_vin (vin)
 );
 
--- Crear tabla temporal para cargar los datos
-CREATE TABLE Temp_Car_Prices (
-    year INT,
-    make VARCHAR(50),
-    model VARCHAR(50),
-    trim VARCHAR(50),
-    body VARCHAR(50),
-    transmission VARCHAR(20),
-    vin VARCHAR(17),
-    state VARCHAR(2),
-    `condition` INT, -- Usamos comillas aquí porque el CSV usa "condition"
-    odometer INT,
-    color VARCHAR(50),
-    interior VARCHAR(50),
-    seller VARCHAR(100),
-    mmr DECIMAL(10,2),
-    sellingprice DECIMAL(10,2),
-    saledate VARCHAR(100)
-);
+
 
 -- Verificar que las tablas se crearon correctamente
 SHOW TABLES;
