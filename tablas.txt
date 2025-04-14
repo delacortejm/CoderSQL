@@ -1,0 +1,71 @@
+Listado de Tablas que Comprenden la Base de Datos
+-------------------------------------------------
+
+La base de datos está compuesta por cinco tablas relacionales diseñadas para gestionar y analizar las ventas de autos usados del año 2014. A continuación, se detalla cada tabla, 
+incluyendo su propósito, campos, tipos de datos y claves.
+
+1. Tabla: State
+-------------------------------------------------
+Descripción: Catálogo que almacena los estados de Estados Unidos donde se realizan las ventas de autos y operan los vendedores. Permite asociar transacciones y vendedores a 
+ubicaciones geográficas específicas.
+
+Abreviatura    | Nombre Completo        | Tipo de Dato         | Tipo de Clave     | Descripción del Campo
+---------------|------------------------|----------------------|-------------------|-------------------------------
+state_id       | Identificador del Estado | INT (AUTO_INCREMENT) | Primaria (PK)     | Identificador único para cada estado.
+state_name     | Nombre del Estado      | VARCHAR(2)           | Única (UNIQUE)    | Código del estado (e.g., CA, FL).
+
+2. Tabla: Seller
+-------------------------------------------------
+Descripción: Registra información sobre los vendedores de autos (concesionarios, bancos, etc.), asociándolos al estado donde operan principalmente. Facilita el seguimiento de quién 
+vende cada vehículo.
+
+Abreviatura    | Nombre Completo        | Tipo de Dato         | Tipo de Clave     | Descripción del Campo
+---------------|------------------------|----------------------|-------------------|-------------------------------
+seller_id      | Identificador del Vendedor | INT (AUTO_INCREMENT) | Primaria (PK)     | Identificador único para cada vendedor.
+seller_name    | Nombre del Vendedor    | VARCHAR(100)         | Única (UNIQUE)    | Nombre del vendedor (e.g., ahfc/honda lease trust).
+state_id       | Identificador del Estado | INT                | Foránea (FK)      | Referencia al estado donde opera el vendedor (tabla State).
+
+3. Tabla: Car_Model
+-------------------------------------------------
+Descripción: Catálogo que almacena las combinaciones únicas de marca, modelo y variante de los autos. Normaliza los datos de los vehículos para evitar redundancias y facilitar 
+consultas por marca o modelo.
+
+Abreviatura    | Nombre Completo        | Tipo de Dato         | Tipo de Clave     | Descripción del Campo
+---------------|------------------------|----------------------|-------------------|-------------------------------
+model_id       | Identificador del Modelo | INT (AUTO_INCREMENT) | Primaria (PK)     | Identificador único para cada combinación de marca/modelo.
+make           | Marca                 | VARCHAR(50)          | -                 | Marca del auto (e.g., Acura, Volvo).
+model          | Modelo                | VARCHAR(50)          | -                 | Modelo del auto (e.g., ILX, XC60).
+trim           | Variante              | VARCHAR(50)          | Nullable          | Variante del modelo (e.g., Base, SH-AWD); puede ser nulo.
+-              | -                     | -                    | Única (UNIQUE)    | Combinación única de make, model, trim.
+
+4. Tabla: Car
+-------------------------------------------------
+Descripción: Contiene la información detallada de cada vehículo vendido en 2014, incluyendo sus características técnicas y estéticas. Es la tabla central que conecta modelos, 
+vendedores y ventas.
+
+Abreviatura    | Nombre Completo        | Tipo de Dato         | Tipo de Clave     | Descripción del Campo
+---------------|------------------------|----------------------|-------------------|-------------------------------
+vin            | Número de Identificación del Vehículo | VARCHAR(17) | Primaria (PK)     | Identificador único del vehículo (VIN).
+year           | Año de Fabricación    | INT                  | -                 | Año de fabricación del auto (2014 en este caso).
+body           | Tipo de Carrocería    | VARCHAR(50)          | -                 | Tipo de carrocería (e.g., Sedan, SUV).
+transmission   | Transmisión           | VARCHAR(20)          | Nullable          | Tipo de transmisión (e.g., automatic, manual); puede ser nulo.
+odometer       | Kilometraje           | INT                  | -                 | Kilometraje del vehículo (en millas).
+color          | Color Exterior        | VARCHAR(50)          | -                 | Color exterior del vehículo (e.g., white, gray).
+interior       | Color Interior        | VARCHAR(50)          | -                 | Color interior del vehículo (e.g., black, gray).
+condition      | Condición             | INT                  | Nullable          | Condición del vehículo (1-50); puede ser nulo.
+car_model_id   | Identificador del Modelo | INT              | Foránea (FK), Índice | Referencia al modelo del auto (tabla Car_Model).
+seller_id      | Identificador del Vendedor | INT            | Foránea (FK)      | Referencia al vendedor del auto (tabla Seller).
+
+5. Tabla: Sale
+-------------------------------------------------
+Descripción: Registra las transacciones de venta de los autos en 2014, incluyendo el precio de venta, el valor estimado de mercado (MMR), la fecha de la venta y el estado donde 
+ocurrió la transacción.
+
+Abreviatura    | Nombre Completo        | Tipo de Dato         | Tipo de Clave     | Descripción del Campo
+---------------|------------------------|----------------------|-------------------|-------------------------------
+sale_id        | Identificador de la Venta | INT (AUTO_INCREMENT) | Primaria (PK)     | Identificador único para cada venta.
+vin            | Número de Identificación del Vehículo | VARCHAR(17) | Foránea (FK), Única (UNIQUE), Índice | Referencia al vehículo vendido (tabla Car).
+mmr            | Valor Estimado de Mercado | DECIMAL(10,2)    | -                 | Valor estimado del vehículo según Manheim Market Report (MMR).
+selling_price  | Precio de Venta       | DECIMAL(10,2)        | -                 | Precio final de venta del vehículo.
+sale_date      | Fecha de Venta        | DATETIME             | -                 | Fecha y hora de la venta (e.g., 2014-02-13 01:00:00).
+state_id       | Identificador del Estado | INT              | Foránea (FK)      | Referencia al estado donde ocurrió la venta (tabla State).
