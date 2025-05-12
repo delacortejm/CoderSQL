@@ -30,7 +30,7 @@ CREATE TABLE Car_Model (
 
 -- Tabla Car (con la columna renombrada a car_condition)
 CREATE TABLE Car (
-    vin VARCHAR(17) PRIMARY KEY,
+    vin VARCHAR(20) PRIMARY KEY,
     year INT NOT NULL,
     body VARCHAR(50) NOT NULL,
     transmission VARCHAR(20),
@@ -48,7 +48,7 @@ CREATE TABLE Car (
 -- Tabla Sale
 CREATE TABLE Sale (
     sale_id INT AUTO_INCREMENT PRIMARY KEY,
-    vin VARCHAR(17) NOT NULL UNIQUE,
+    vin VARCHAR(20) NOT NULL UNIQUE,
     mmr DECIMAL(10,2) NOT NULL,
     selling_price DECIMAL(10,2) NOT NULL,
     sale_date DATETIME NOT NULL,
